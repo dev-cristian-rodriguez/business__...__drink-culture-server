@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 import os
 
-env_path = Path('.', '.env')
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -52,13 +52,15 @@ PROJECT_APPS = [
 ]
 
 ADDITIONAL_LIBRARIES = [
-    
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 INSTALLED_APPS = []
 INSTALLED_APPS.extend(DEFAULT_APPS_DJANGO)
 INSTALLED_APPS.extend(PROJECT_APPS)
 INSTALLED_APPS.extend(ADDITIONAL_LIBRARIES)
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,7 +72,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'drink_culture_server.urls'
+
 
 TEMPLATES = [
     {
@@ -149,3 +153,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ADMINS = [
     (f"{os.getenv('ADMIN_USER_NAME')}", f"{os.getenv('ADMIN_USER_EMAIL')}")
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
+}

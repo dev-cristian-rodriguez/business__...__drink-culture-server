@@ -1,8 +1,7 @@
 from django.urls import path
 
-# Endpoints for user-related operations 
-from views import home
+from .views import UserView
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', view=UserView.as_view(), name='user')
 ]
