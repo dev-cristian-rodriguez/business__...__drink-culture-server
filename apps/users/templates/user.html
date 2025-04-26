@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+
+    <style>
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Formulario de creacion de usuario</h1>
+
+    <form>
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      /><br /><br />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+      /><br /><br />
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <h2
+      class="loading-message"
+      style="color: gray; text-align: center; margin-top: 50px"
+    >
+      Digite los valores
+    </h2>
+
+    <script type="module">
+      const form = document.querySelector("form");
+      const loadingMessage =
+        document.getElementsByClassName("loading-message")[0];
+
+    const title = document.querySelector("h1");
+
+      // Add an event listener to the form's submit event
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const body = {
+          username: form.username.value,
+          password: form.password.value,
+          email: form.email.value,
+        };
+
+        try {
+          loadingMessage.innerHTML = "Cargando...";
+          loadingMessage.style.color = "blue";
+
+          await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate a delay of 5 seconds
+
+          const response = await fetch("/api/v1/users/create/", {
+            body : JSON.stringify(body),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}",
+            },
+            credentials: "omit",
+          });
+
+          if (response.ok) {
+            alert("User created successfully!");
+
+            loadingMessage.innerHTML = "User created successfully!";
+            loadingMessage.style.color = "green";
+
+            const userInfo = document.createElement('p');
+            userInfo.innerHTML = `User created successfully! Username: ${body.username}, Email: ${body.email}`;
+            userInfo.style.color = "blue";
+            userInfo.style.textAlign = "center";
+            userInfo.style.marginTop = "20px";
+            userInfo.style.fontSize = "16px";
+            userInfo.style.padding = "10px 40px"
+            form.style.display = "none"; // Hide the form after submission
+
+            title.appendChild(userInfo);
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html>
