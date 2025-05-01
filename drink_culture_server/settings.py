@@ -49,6 +49,13 @@ DEFAULT_APPS_DJANGO = [
 
 PROJECT_APPS = [
     'apps.users',
+    'apps.customer_data',
+    'apps.categories',
+    'apps.products',
+    'apps.shopping_cart',
+    'apps.notifications',
+    'apps.favorites',
+    'apps.advertisements',
 ]
 
 ADDITIONAL_LIBRARIES = [
