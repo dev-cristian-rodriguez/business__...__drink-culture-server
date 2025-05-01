@@ -1,3 +1,14 @@
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
+from apps.users.models import Users
+from apps.products.models import Products
+
+
+class Favorites(models.Model) :
+    status = models.IntegerField()
+    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
