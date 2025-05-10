@@ -7,8 +7,8 @@ from apps.products.models import Products
 
 class Favorites(models.Model) :
     status = models.IntegerField()
-    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

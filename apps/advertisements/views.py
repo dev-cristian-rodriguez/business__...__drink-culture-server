@@ -1,3 +1,18 @@
-from django.shortcuts import render
+from django.forms.models import model_to_dict
 
-# Create your views here.
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from apps.advertisements.models import Banners
+
+class BannersView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        items = model_to_dict(Banners.objects.all())
+        print(items)
+        
+        
+        content = dict(status="200", data="response with success")
+        return Response(content)

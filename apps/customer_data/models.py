@@ -10,7 +10,7 @@ class Customer_Address(models.Model):
     city = models.CharField(max_length=100)
     physical_address = models.CharField(max_length=1000)
     additional_references = models.CharField(max_length=1000, null=True)
-    user_id = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -18,9 +18,9 @@ class Customer_Address(models.Model):
 
 class Customer_Orders(models.Model) :
     status = models.IntegerField()
-    user_id = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
-    customer_address_id = models.ForeignKey(Customer_Address, on_delete=models.CASCADE)
+    user = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    customer_address = models.ForeignKey(Customer_Address, on_delete=models.CASCADE)
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,7 +30,7 @@ class Customer_Payments(models.Model) :
     payment_type = models.IntegerField()
     provider = models.IntegerField()
     expiration_date = models.DateField()
-    user_id = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Custom_User, on_delete=models.CASCADE)
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

@@ -11,6 +11,6 @@ class Products (models.Model) :
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_prince = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     quantity = models.IntegerField()
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
