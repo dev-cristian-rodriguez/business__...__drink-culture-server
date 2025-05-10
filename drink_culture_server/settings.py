@@ -162,6 +162,7 @@ ADMINS = [
     (f"{os.getenv('ADMIN_USER_NAME')}", f"{os.getenv('ADMIN_USER_EMAIL')}")
 ]
 
+AUTH_USER_MODEL = "users.Custom_User"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
