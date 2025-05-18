@@ -7,6 +7,53 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.shortcuts import render
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+# Services
+from apps.users.services import google_get_access_token, google_get_user_info
+
+
+class GoogleLogin(APIView):
+    authentication_classes = []
+    permission_classes = []
+    
+    def post(self, request, *args, **kwargs):
+        if not request.data.get('code'):
+            return Response({"error": "code not found"}, status=400)
+        
+        access_token = google_get_access_token(request.data.get('code'))
+        user_data = google_get_user_info(access_token=access_token)
+        
+        u = User.objects.get(email=user_data['email'])
+        
+        if not u :
+            new_user = User.objects.create_user(
+                email=user_data['email'],
+                full_name=user_data['name'],
+                is_active=True,
+                is_superuser=False,
+                is_staff=False,
+            )
+            new_user.save()
+            
+            refresh = RefreshToken.for_user(new_user)
+            access_token = str(refresh.access_token)
+            
+            return Response({
+                "access_token": access_token,
+                "refresh_token": str(refresh),
+            })
+            
+        else :
+            refresh = RefreshToken.for_user(u)
+            access_token = str(refresh.access_token)
+            
+            return Response({
+                "access_token": access_token,
+                "refresh_token": str(refresh),
+            })
+            
 
 class CreateUserView(APIView):
     authentication_classes = []

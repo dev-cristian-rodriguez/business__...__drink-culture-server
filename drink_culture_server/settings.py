@@ -32,8 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-if os.getenv('PROJECT_ENVIRONMENT') == 'test':
-    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
+if os.getenv('PROJECT_ENVIRONMENT') == 'test' or os.getenv('PROJECT_ENVIRONMENT') == 'dev':
+    ALLOWED_HOSTS.extend(['http://localhost:5173', '127.0.0.1'])
 
 
 # Application definition
